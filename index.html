@@ -72,9 +72,11 @@
             border: 1px solid rgba(200,170,80,0.25);
             border-radius: 6px;
             overflow: hidden;
+            width: 280px;
         }
         .mode-btn {
-            padding: 10px 28px;
+            flex: 1;
+            padding: 10px 12px;
             font-family: 'Cinzel', serif;
             font-size: 12px;
             font-weight: 700;
@@ -86,6 +88,7 @@
             cursor: pointer;
             transition: all 0.3s;
             position: relative;
+            text-align: center;
         }
         .mode-btn:not(:last-child) {
             border-right: 1px solid rgba(200,170,80,0.15);
@@ -293,8 +296,8 @@
 
         /* ========== D20 Label ========== */
         .dice-type-label {
-            font-size: 10px;
-            letter-spacing: 4px;
+            font-size: 20px;
+            /* letter-spacing: 4px; */
             color: rgba(200,180,140,0.3);
             text-transform: uppercase;
             margin-bottom: 12px;
@@ -673,7 +676,8 @@
             .roll-history { display: none; }
             .editable-row { flex-direction: column; gap: 8px; }
             .result-total { font-size: 42px; }
-            .mode-btn { padding: 8px 18px; font-size: 10px; }
+            .mode-switcher { width: 240px; }
+            .mode-btn { padding: 8px 10px; font-size: 10px; }
             .roll-btn { padding: 10px 28px; font-size: 12px; }
         }
     </style>
@@ -688,7 +692,7 @@
     <!-- Режим -->
     <div class="mode-switcher">
         <button class="mode-btn active" id="modeCheck" onclick="setMode('check')">Проверка</button>
-        <button class="mode-btn" id="modeFree" onclick="setMode('free')">Свободный бросок</button>
+        <button class="mode-btn" id="modeFree" onclick="setMode('free')">Бросок</button>
     </div>
 
     <!-- Отображение проверки (сверху, красиво) -->
@@ -714,7 +718,7 @@
     </div>
 
     <div class="divider"></div>
-    <div class="dice-type-label">D 2 0</div>
+    <div class="dice-type-label">D20</div>
 
     <!-- Зона кубика -->
     <div class="dice-area">
@@ -818,8 +822,8 @@
         createBgParticles();
         updateDCHint();
         updateDisplay();
-        // Скрываем кнопку настроек в свободном режиме
-        document.getElementById('settingsToggle').style.display = 'none';
+        // Кнопка настроек видна в режиме проверки (по умолчанию)
+        document.getElementById('settingsToggle').style.display = 'flex';
     }
 
     function createBgParticles() {
