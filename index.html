@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>D20 Roll — Baldur's Gate 3 Style</title>
+    <title>Dice Roller</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&display=swap');
 
@@ -370,7 +370,7 @@
         /* ========== Кубик (PNG) ========== */
         .dice-svg-container {
             position: relative;
-            width: 150px; height: 150px;
+            width: 170px; height: 170px;
             cursor: pointer;
             z-index: 2;
         }
@@ -389,7 +389,7 @@
             top: 50%; left: 50%;
             transform: translate(-50%, -30%);
             font-family: 'Cinzel', serif;
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 900;
             color: #e8d5a3;
             text-shadow: 0 0 8px rgba(200,160,60,0.5);
@@ -421,14 +421,6 @@
             70% { transform: scale(0.95) rotate(880deg); }
             85% { transform: scale(1.01) rotate(1020deg); }
             100% { transform: scale(1) rotate(1080deg); }
-        }
-        .dice-svg-container.rolling .dice-number {
-            animation: numFlicker 0.07s infinite;
-            opacity: 1;
-        }
-        @keyframes numFlicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
         }
 
         /* Модификатор бейдж */
@@ -820,7 +812,6 @@
     // ==================== СОСТОЯНИЕ ====================
     let isRolling = false;
     let currentMode = 'check'; // 'check' | 'free'
-    let flickerInterval = null;
 
     // ==================== ИНИЦИАЛИЗАЦИЯ ====================
     function init() {
@@ -1080,27 +1071,12 @@
         const container = document.getElementById('diceContainer');
         container.classList.add('rolling');
 
-        const diceNum = document.getElementById('diceNumber');
-        diceNum.classList.add('visible');
-
-        const flickerStart = Date.now();
-        const flickerDuration = 2000;
-
-        flickerInterval = setInterval(() => {
-            const elapsed = Date.now() - flickerStart;
-            if (elapsed < flickerDuration - 200) {
-                diceNum.textContent = Math.floor(Math.random() * 20) + 1;
-            } else {
-                diceNum.textContent = diceRoll;
-            }
-        }, 55);
-
         playRollSound();
 
         setTimeout(() => {
-            clearInterval(flickerInterval);
             container.classList.remove('rolling');
 
+            const diceNum = document.getElementById('diceNumber');
             diceNum.textContent = diceRoll;
             diceNum.className = 'dice-number visible';
             if (isNat20) diceNum.classList.add('nat20');
@@ -1132,7 +1108,7 @@
                 btn.disabled = false;
             }, 400);
 
-        }, 2200);
+        }, 2000);
     }
 
     // ==================== РЕЗУЛЬТАТ ====================
