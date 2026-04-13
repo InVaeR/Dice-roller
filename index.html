@@ -229,10 +229,17 @@
         .editable-input.mod-input {
             width: 58px;
             font-size: 18px;
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.6s;
         }
         .editable-input.dc-input {
             width: 58px;
             font-size: 18px;
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.6s;
+        }
+        .editable-input.loaded {
+            border-color: rgba(100,200,120,0.6) !important;
+            box-shadow: 0 0 12px rgba(100,200,120,0.25);
+            background: rgba(25,40,25,0.8);
         }
 
         .dc-difficulty-hint {
@@ -945,8 +952,55 @@
         100: 'res/images/dices/d100.png'
     };
 
+    // Сохранённые навыки (загружаются из localStorage)
+    let savedSkills = {};
+
+    // ==================== СОХРАНЕНИЕ / ЗАГРУЗКА ====================
+    function loadSavedSkills() {
+        try {
+            const data = localStorage.getItem('diceRoller_skills');
+            if (data) savedSkills = JSON.parse(data);
+        } catch (e) {
+            savedSkills = {};
+        }
+        updateSkillSelectLabels();
+    }
+
+    function saveSkillToStorage(skillName, mod) {
+        savedSkills[skillName] = { mod };
+        try {
+            localStorage.setItem('diceRoller_skills', JSON.stringify(savedSkills));
+        } catch (e) { /* квота исчерпана — игнорируем */ }
+        updateSkillSelectLabels();
+    }
+
+    function updateSkillSelectLabels() {
+        const select = document.getElementById('skillSelect');
+        const groups = select.querySelectorAll('optgroup');
+        groups.forEach(group => {
+            group.querySelectorAll('option').forEach(opt => {
+                const val = opt.value;
+                if (val && savedSkills[val] !== undefined) {
+                    const m = savedSkills[val].mod;
+                    opt.textContent = val + ' (' + (m >= 0 ? '+' : '') + m + ')';
+                } else {
+                    opt.textContent = val;
+                }
+            });
+        });
+        // Обновляем выбранный элемент
+        const skillInput = document.getElementById('skillInput');
+        const currentSkill = skillInput.value.trim();
+        if (savedSkills[currentSkill]) {
+            select.value = currentSkill;
+        } else {
+            select.value = '';
+        }
+    }
+
     // ==================== ИНИЦИАЛИЗАЦИЯ ====================
     function init() {
+        loadSavedSkills();
         createBgParticles();
         updateDCHint();
         updateDisplay();
@@ -1063,6 +1117,11 @@
         document.getElementById('displayDC').textContent = 'DC ' + dc;
 
         updateDCHint();
+
+        // Автосохранение модификатора (только если навык не дефолтный)
+        if (skill !== 'Навык' && currentMode === 'check') {
+            saveSkillToStorage(skill, mod);
+        }
     }
 
     // ==================== SETTINGS TOGGLE ====================
@@ -1077,8 +1136,26 @@
         const skillInput = document.getElementById('skillInput');
         if (select.value) {
             skillInput.value = select.value;
-            updateDisplay();
+            loadSavedSkillValues(select.value);
         }
+    }
+
+    function loadSavedSkillValues(skillName) {
+        const modInput = document.getElementById('modInput');
+
+        if (savedSkills[skillName]) {
+            const saved = savedSkills[skillName];
+            modInput.value = saved.mod;
+            modInput.classList.add('loaded');
+            // Убираем подсветку через 1.5с
+            setTimeout(() => {
+                modInput.classList.remove('loaded');
+            }, 1500);
+        } else {
+            // Нет сохранённых — сброс дефолтного значения
+            modInput.value = 0;
+        }
+        updateDisplay();
     }
 
     // ==================== GETTERS ====================
