@@ -303,53 +303,192 @@
         .display-badge-value.positive { color: rgba(120,200,120,0.85); }
         .display-badge-value.negative { color: rgba(200,120,120,0.85); }
 
-        /* Кнопка настроек */
+        /* Кнопка настроек — фиксированная в правом нижнем углу */
         .settings-toggle {
-            background: none;
-            border: 1px solid rgba(200,170,80,0.15);
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(20,18,14,0.85);
+            border: 1px solid rgba(200,170,80,0.25);
             border-radius: 50%;
-            width: 30px; height: 30px;
+            width: 44px; height: 44px;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer;
             transition: all 0.3s;
-            color: rgba(200,180,140,0.35);
-            font-size: 16px;
-            margin: 16px auto 4px;
-            align-self: center;
+            color: rgba(200,180,140,0.45);
+            font-size: 20px;
+            z-index: 100;
+            backdrop-filter: blur(8px);
         }
         .settings-toggle:hover {
-            border-color: rgba(200,170,80,0.4);
-            color: rgba(200,180,140,0.7);
-            box-shadow: 0 0 10px rgba(200,170,80,0.15);
+            border-color: rgba(200,170,80,0.5);
+            color: rgba(200,180,140,0.8);
+            box-shadow: 0 0 20px rgba(200,170,80,0.2);
+            transform: scale(1.05);
         }
-        .settings-panel {
-            max-height: 0;
+
+        /* Модальное окно настроек */
+        .settings-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 150;
             opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.4s;
-            margin-top: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            backdrop-filter: blur(4px);
         }
-        .settings-panel.open {
-            max-height: 200px;
+        .settings-overlay.open {
             opacity: 1;
-            margin-top: 10px;
+            pointer-events: all;
         }
-        .settings-panel .settings-grid {
+        .settings-modal {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: linear-gradient(180deg, rgba(30,25,18,0.97) 0%, rgba(16,14,10,0.98) 100%);
+            border: 1px solid rgba(200,170,80,0.3);
+            border-radius: 12px;
+            padding: 28px 32px;
+            z-index: 160;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: 0 0 60px rgba(0,0,0,0.5), 0 0 30px rgba(200,170,80,0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+        .settings-modal.open {
+            opacity: 1;
+            pointer-events: all;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .settings-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(200,170,80,0.15);
+        }
+        .settings-modal-title {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(200,180,140,0.8);
+        }
+        .settings-close {
+            background: none;
+            border: 1px solid rgba(200,170,80,0.2);
+            border-radius: 50%;
+            width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            color: rgba(200,180,140,0.5);
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .settings-close:hover {
+            border-color: rgba(200,170,80,0.5);
+            color: rgba(200,180,140,0.9);
+        }
+        .settings-modal .skill-select-row {
+            margin-bottom: 12px;
+        }
+        .settings-modal .settings-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 12px;
             justify-content: center;
             align-items: flex-end;
         }
-        .settings-panel .settings-grid .editable-group {
-            flex-shrink: 0;
+        .settings-modal .dc-difficulty-hint {
+            text-align: center;
+            margin-top: 8px;
         }
-        .settings-panel .skill-select-row {
-            margin-bottom: 8px;
+        .settings-section {
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(200,170,80,0.12);
+        }
+        .settings-section-title {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(200,180,140,0.4);
+            margin-bottom: 10px;
+        }
+        .volume-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             justify-content: center;
         }
-        .settings-panel .skill-select {
-            width: 200px;
+        .volume-label {
+            font-size: 13px;
+            color: rgba(200,180,140,0.6);
+            min-width: 60px;
+        }
+        .volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 160px;
+            height: 4px;
+            background: rgba(200,170,80,0.15);
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            background: #e8d5a3;
+            box-shadow: 0 0 8px rgba(200,170,80,0.3);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+        .volume-slider::-moz-range-thumb {
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            background: #e8d5a3;
+            border: none;
+            box-shadow: 0 0 8px rgba(200,170,80,0.3);
+            cursor: pointer;
+        }
+        .volume-value {
+            font-size: 13px;
+            color: rgba(200,180,140,0.7);
+            font-weight: 700;
+            min-width: 32px;
+            text-align: right;
+        }
+        .reset-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 8px 24px;
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(200,120,120,0.7);
+            background: rgba(40,20,20,0.6);
+            border: 1px solid rgba(200,100,100,0.25);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .reset-btn:hover {
+            color: rgba(224,100,100,0.9);
+            border-color: rgba(200,100,100,0.5);
+            box-shadow: 0 0 15px rgba(200,80,80,0.15);
         }
 
         /* Разделитель */
@@ -754,12 +893,14 @@
         /* ========== Адаптив ========== */
         @media (max-width: 700px) {
             .roll-history { display: none; }
-            .settings-panel .settings-grid { flex-direction: column; align-items: center; }
+            .settings-modal .settings-grid { flex-direction: column; align-items: center; }
             .editable-input.skill-input { width: 200px; }
             .result-total { font-size: 42px; }
             .mode-switcher { width: 240px; }
             .mode-btn { padding: 8px 10px; font-size: 10px; }
             .roll-btn { padding: 10px 28px; font-size: 12px; }
+            .settings-modal { padding: 20px 24px; width: 95%; }
+            .settings-toggle { bottom: 16px; right: 16px; width: 40px; height: 40px; font-size: 18px; }
         }
     </style>
 </head>
@@ -864,14 +1005,20 @@
             Бросить кубик
         </button>
     </div>
+</div>
 
-    <!-- Кнопка настроек (внизу, не мешает) -->
-    <button class="settings-toggle" id="settingsToggle" onclick="toggleSettings()" title="Настройки">
-        ⚙
-    </button>
+<!-- Кнопка настроек — в правом нижнем углу -->
+<button class="settings-toggle" id="settingsToggle" onclick="toggleSettings()" title="Настройки">
+    ⚙
+</button>
 
-    <!-- Панель настроек (сворачиваемая, внизу) -->
-    <div class="settings-panel" id="settingsPanel">
+<!-- Модальное окно настроек -->
+<div class="settings-overlay" id="settingsOverlay" onclick="closeSettingsOnOverlay(event)">
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-modal-header">
+            <span class="settings-modal-title">Настройки</span>
+            <button class="settings-close" onclick="toggleSettings()" title="Закрыть">✕</button>
+        </div>
         <div class="skill-select-row">
             <select class="skill-select" id="skillSelect" onchange="onSkillSelect()">
                 <option value="">— выбрать —</option>
@@ -925,6 +1072,24 @@
             </div>
         </div>
         <div class="dc-difficulty-hint" id="dcHint">Средняя сложность</div>
+
+        <!-- Громкость -->
+        <div class="settings-section">
+            <div class="settings-section-title">Звук</div>
+            <div class="volume-row">
+                <span class="volume-label">Громкость</span>
+                <input type="range" class="volume-slider" id="volumeSlider"
+                       min="0" max="100" value="80"
+                       oninput="updateVolume(this.value)">
+                <span class="volume-value" id="volumeValue">80%</span>
+            </div>
+        </div>
+
+        <!-- Сброс данных -->
+        <div class="settings-section">
+            <div class="settings-section-title">Данные</div>
+            <button class="reset-btn" onclick="resetSavedSkills()">Сбросить модификаторы</button>
+        </div>
     </div>
 </div>
 
@@ -954,6 +1119,25 @@
 
     // Сохранённые навыки (загружаются из localStorage)
     let savedSkills = {};
+    let masterVolume = 0.8; // 0-1
+
+    // ==================== ГРОМКОСТЬ ====================
+    function updateVolume(val) {
+        masterVolume = val / 100;
+        document.getElementById('volumeValue').textContent = val + '%';
+        try { localStorage.setItem('diceRoller_volume', val); } catch (e) {}
+    }
+
+    function loadVolume() {
+        try {
+            const v = localStorage.getItem('diceRoller_volume');
+            if (v !== null) {
+                masterVolume = parseInt(v) / 100;
+                document.getElementById('volumeSlider').value = v;
+                document.getElementById('volumeValue').textContent = v + '%';
+            }
+        } catch (e) {}
+    }
 
     // ==================== СОХРАНЕНИЕ / ЗАГРУЗКА ====================
     function loadSavedSkills() {
@@ -1001,11 +1185,10 @@
     // ==================== ИНИЦИАЛИЗАЦИЯ ====================
     function init() {
         loadSavedSkills();
+        loadVolume();
         createBgParticles();
         updateDCHint();
         updateDisplay();
-        // Кнопка настроек видна в режиме проверки (по умолчанию)
-        document.getElementById('settingsToggle').style.display = 'flex';
     }
 
     function createBgParticles() {
@@ -1048,7 +1231,6 @@
         const checkDisplay = document.getElementById('checkDisplay');
         const freeDisplay = document.getElementById('freeDisplay');
         const dcRing = document.getElementById('dcRing');
-        const settingsToggle = document.getElementById('settingsToggle');
         const diceSelector = document.getElementById('diceSelector');
 
         if (mode === 'check') {
@@ -1057,7 +1239,6 @@
             freeDisplay.classList.remove('visible');
             freeDisplay.classList.add('hidden');
             dcRing.classList.remove('hidden');
-            settingsToggle.style.display = 'flex';
             diceSelector.classList.remove('visible');
             diceSelector.classList.add('hidden');
             // В режиме проверки всегда D20
@@ -1069,7 +1250,6 @@
             freeDisplay.classList.remove('hidden');
             freeDisplay.classList.add('visible');
             dcRing.classList.add('hidden');
-            settingsToggle.style.display = 'flex';
             diceSelector.classList.remove('hidden');
             diceSelector.classList.add('visible');
         }
@@ -1126,8 +1306,23 @@
 
     // ==================== SETTINGS TOGGLE ====================
     function toggleSettings() {
-        const panel = document.getElementById('settingsPanel');
-        panel.classList.toggle('open');
+        const overlay = document.getElementById('settingsOverlay');
+        const modal = document.getElementById('settingsModal');
+        const isOpen = modal.classList.contains('open');
+        if (isOpen) {
+            modal.classList.remove('open');
+            overlay.classList.remove('open');
+        } else {
+            overlay.classList.add('open');
+            modal.classList.add('open');
+            updateSkillSelectLabels();
+        }
+    }
+
+    function closeSettingsOnOverlay(event) {
+        if (event.target === event.currentTarget) {
+            toggleSettings();
+        }
     }
 
     // ==================== SKILL SELECT ====================
@@ -1138,6 +1333,18 @@
             skillInput.value = select.value;
             loadSavedSkillValues(select.value);
         }
+    }
+
+    function resetSavedSkills() {
+        if (Object.keys(savedSkills).length === 0) return;
+        savedSkills = {};
+        try { localStorage.removeItem('diceRoller_skills'); } catch (e) {}
+        // Сброс текущих значений
+        document.getElementById('modInput').value = 0;
+        document.getElementById('dcInput').value = 15;
+        document.getElementById('skillSelect').value = '';
+        updateDisplay();
+        updateSkillSelectLabels();
     }
 
     function loadSavedSkillValues(skillName) {
@@ -1194,7 +1401,7 @@
             osc.type = 'triangle';
             osc.frequency.value = 180 + Math.random() * 500;
 
-            const vol = 0.1 * Math.max(0.2, 1 - i * 0.1);
+            const vol = 0.1 * masterVolume * Math.max(0.2, 1 - i * 0.1);
             gain.gain.setValueAtTime(vol, time);
             gain.gain.exponentialRampToValueAtTime(0.001, time + 0.07);
 
@@ -1218,7 +1425,7 @@
                 osc.type = i < 3 ? 'sine' : 'triangle';
                 osc.frequency.value = f;
                 gain.gain.setValueAtTime(0, now + i * 0.07);
-                gain.gain.linearRampToValueAtTime(0.08, now + i * 0.07 + 0.08);
+                gain.gain.linearRampToValueAtTime(0.08 * masterVolume, now + i * 0.07 + 0.08);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 2.2);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
@@ -1231,7 +1438,7 @@
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(280, now);
             osc.frequency.exponentialRampToValueAtTime(60, now + 0.9);
-            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.setValueAtTime(0.12 * masterVolume, now);
             gain.gain.exponentialRampToValueAtTime(0.001, now + 1);
             const flt = audioCtx.createBiquadFilter();
             flt.type = 'lowpass'; flt.frequency.value = 500;
@@ -1244,7 +1451,7 @@
                 osc.type = 'sine';
                 osc.frequency.value = f;
                 gain.gain.setValueAtTime(0, now + i * 0.1);
-                gain.gain.linearRampToValueAtTime(0.08, now + i * 0.1 + 0.05);
+                gain.gain.linearRampToValueAtTime(0.08 * masterVolume, now + i * 0.1 + 0.05);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 1);
                 osc.connect(gain); gain.connect(audioCtx.destination);
                 osc.start(now + i * 0.1); osc.stop(now + 1);
@@ -1255,7 +1462,7 @@
             osc.type = 'sine';
             osc.frequency.setValueAtTime(330, now);
             osc.frequency.linearRampToValueAtTime(180, now + 0.4);
-            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.setValueAtTime(0.08 * masterVolume, now);
             gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
             osc.connect(gain); gain.connect(audioCtx.destination);
             osc.start(now); osc.stop(now + 0.6);
@@ -1267,7 +1474,7 @@
                 osc.type = 'sine';
                 osc.frequency.value = f;
                 gain.gain.setValueAtTime(0, now + i * 0.08);
-                gain.gain.linearRampToValueAtTime(0.06, now + i * 0.08 + 0.04);
+                gain.gain.linearRampToValueAtTime(0.06 * masterVolume, now + i * 0.08 + 0.04);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
                 osc.connect(gain); gain.connect(audioCtx.destination);
                 osc.start(now + i * 0.08); osc.stop(now + 0.7);
@@ -1573,6 +1780,16 @@
     document.addEventListener('keydown', (e) => {
         // Не перехватываем если фокус в input
         const tag = document.activeElement.tagName.toLowerCase();
+
+        // Escape — закрыть настройки
+        if (e.code === 'Escape') {
+            const modal = document.getElementById('settingsModal');
+            if (modal.classList.contains('open')) {
+                toggleSettings();
+                return;
+            }
+        }
+
         if (tag === 'input') return;
 
         if (e.code === 'Space' || e.code === 'Enter') {
