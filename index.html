@@ -20,9 +20,11 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             font-family: 'Cinzel', serif;
             user-select: none;
+            padding: 8px 0;
         }
 
         /* ========== Фоновые частицы ========== */
@@ -63,10 +65,9 @@
             flex-direction: column;
             align-items: center;
             z-index: 10;
-            padding: 20px;
+            padding: 0 20px 20px;
         }
 
-        /* ========== Режим переключатель ========== */
         .mode-switcher {
             display: flex;
             gap: 0;
@@ -516,6 +517,8 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 24px;
+            overflow: hidden;
+            contain: layout;
         }
 
         .dice-glow {
@@ -1079,9 +1082,9 @@
             <div class="volume-row">
                 <span class="volume-label">Громкость</span>
                 <input type="range" class="volume-slider" id="volumeSlider"
-                       min="0" max="100" value="80"
+                       min="0" max="100" value="50"
                        oninput="updateVolume(this.value)">
-                <span class="volume-value" id="volumeValue">80%</span>
+                <span class="volume-value" id="volumeValue">50%</span>
             </div>
         </div>
 
@@ -1119,7 +1122,7 @@
 
     // Сохранённые навыки (загружаются из localStorage)
     let savedSkills = {};
-    let masterVolume = 0.8; // 0-1
+    let masterVolume = 0.5; // 0-1 (50% по умолчанию)
 
     // ==================== ГРОМКОСТЬ ====================
     function updateVolume(val) {
@@ -1401,7 +1404,7 @@
             osc.type = 'triangle';
             osc.frequency.value = 180 + Math.random() * 500;
 
-            const vol = 0.1 * masterVolume * Math.max(0.2, 1 - i * 0.1);
+            const vol = 0.4 * masterVolume * Math.max(0.2, 1 - i * 0.1);
             gain.gain.setValueAtTime(vol, time);
             gain.gain.exponentialRampToValueAtTime(0.001, time + 0.07);
 
@@ -1425,7 +1428,7 @@
                 osc.type = i < 3 ? 'sine' : 'triangle';
                 osc.frequency.value = f;
                 gain.gain.setValueAtTime(0, now + i * 0.07);
-                gain.gain.linearRampToValueAtTime(0.08 * masterVolume, now + i * 0.07 + 0.08);
+                gain.gain.linearRampToValueAtTime(0.25 * masterVolume, now + i * 0.07 + 0.08);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 2.2);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
@@ -1438,7 +1441,7 @@
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(280, now);
             osc.frequency.exponentialRampToValueAtTime(60, now + 0.9);
-            gain.gain.setValueAtTime(0.12 * masterVolume, now);
+            gain.gain.setValueAtTime(0.35 * masterVolume, now);
             gain.gain.exponentialRampToValueAtTime(0.001, now + 1);
             const flt = audioCtx.createBiquadFilter();
             flt.type = 'lowpass'; flt.frequency.value = 500;
@@ -1451,7 +1454,7 @@
                 osc.type = 'sine';
                 osc.frequency.value = f;
                 gain.gain.setValueAtTime(0, now + i * 0.1);
-                gain.gain.linearRampToValueAtTime(0.08 * masterVolume, now + i * 0.1 + 0.05);
+                gain.gain.linearRampToValueAtTime(0.25 * masterVolume, now + i * 0.1 + 0.05);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 1);
                 osc.connect(gain); gain.connect(audioCtx.destination);
                 osc.start(now + i * 0.1); osc.stop(now + 1);
@@ -1462,7 +1465,7 @@
             osc.type = 'sine';
             osc.frequency.setValueAtTime(330, now);
             osc.frequency.linearRampToValueAtTime(180, now + 0.4);
-            gain.gain.setValueAtTime(0.08 * masterVolume, now);
+            gain.gain.setValueAtTime(0.2 * masterVolume, now);
             gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
             osc.connect(gain); gain.connect(audioCtx.destination);
             osc.start(now); osc.stop(now + 0.6);
@@ -1474,7 +1477,7 @@
                 osc.type = 'sine';
                 osc.frequency.value = f;
                 gain.gain.setValueAtTime(0, now + i * 0.08);
-                gain.gain.linearRampToValueAtTime(0.06 * masterVolume, now + i * 0.08 + 0.04);
+                gain.gain.linearRampToValueAtTime(0.2 * masterVolume, now + i * 0.08 + 0.04);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
                 osc.connect(gain); gain.connect(audioCtx.destination);
                 osc.start(now + i * 0.08); osc.stop(now + 0.7);
