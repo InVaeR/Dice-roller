@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dice Roller</title>
+    <link rel="icon" type="image/png" href="res/images/icon.png">
+    <link rel="shortcut icon" type="image/png" href="res/images/icon.png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&display=swap');
 
@@ -103,41 +105,60 @@
             box-shadow: inset 0 -2px 0 rgba(200,170,80,0.6);
         }
 
-        /* ========== Панель настроек проверки ========== */
-        .check-panel {
+        /* ========== Селектор кубиков ========== */
+        .dice-selector {
             display: flex;
-            flex-direction: column;
-            align-items: center;
             gap: 6px;
-            margin-bottom: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
             transition: opacity 0.4s, max-height 0.4s, margin 0.4s;
-            overflow: hidden;
         }
-        .check-panel.hidden {
+        .dice-selector.hidden {
             opacity: 0;
             max-height: 0;
             margin-bottom: 0;
             pointer-events: none;
+            overflow: hidden;
         }
-        .check-panel.visible {
+        .dice-selector.visible {
             opacity: 1;
-            max-height: 200px;
+            max-height: 80px;
         }
-
-        .check-label-top {
+        .dice-type-btn {
+            width: 44px; height: 44px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Cinzel', serif;
             font-size: 11px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: rgba(200,180,140,0.45);
+            font-weight: 700;
+            color: rgba(200,180,140,0.4);
+            background: rgba(20,18,14,0.6);
+            border: 1px solid rgba(200,170,80,0.15);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .dice-type-btn:hover {
+            border-color: rgba(200,170,80,0.4);
+            color: rgba(200,180,140,0.7);
+            background: rgba(30,25,18,0.8);
+            box-shadow: 0 0 10px rgba(200,170,80,0.1);
+        }
+        .dice-type-btn.active {
+            color: #e8d5a3;
+            border-color: rgba(200,170,80,0.5);
+            background: rgba(50,40,25,0.9);
+            box-shadow: inset 0 -2px 0 rgba(200,170,80,0.5), 0 0 12px rgba(200,170,80,0.15);
+        }
+        .dice-type-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
         }
 
-        /* Editable поля */
-        .editable-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 4px;
-        }
+        /* ========== Отображение проверки (сверху) ========== */
         .editable-group {
             display: flex;
             flex-direction: column;
@@ -168,31 +189,52 @@
             box-shadow: 0 0 12px rgba(200,170,80,0.15);
         }
         .editable-input.skill-input {
-            width: 180px;
+            width: 160px;
             font-size: 18px;
             font-weight: 900;
             letter-spacing: 1px;
         }
-        .editable-input.mod-input {
-            width: 64px;
-            font-size: 18px;
-        }
-        .editable-input.dc-input {
-            width: 64px;
-            font-size: 18px;
-        }
-
-        .dc-row {
+        .skill-select-row {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-top: 6px;
+            margin-bottom: 4px;
         }
-        .dc-text {
-            font-size: 13px;
-            color: rgba(200,180,140,0.5);
-            letter-spacing: 1px;
+        .skill-select {
+            background: rgba(20,18,14,0.7);
+            border: 1px solid rgba(200,170,80,0.25);
+            border-radius: 4px;
+            color: #e8d5a3;
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 7px 28px 7px 10px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='rgba(200,180,140,0.5)' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
         }
+        .skill-select:focus {
+            border-color: rgba(200,170,80,0.6);
+            box-shadow: 0 0 12px rgba(200,170,80,0.15);
+        }
+        .skill-select option {
+            background: rgba(20,18,14,0.95);
+            color: #e8d5a3;
+        }
+        .editable-input.mod-input {
+            width: 58px;
+            font-size: 18px;
+        }
+        .editable-input.dc-input {
+            width: 58px;
+            font-size: 18px;
+        }
+
         .dc-difficulty-hint {
             font-size: 10px;
             color: rgba(200,180,140,0.3);
@@ -265,7 +307,7 @@
             transition: all 0.3s;
             color: rgba(200,180,140,0.35);
             font-size: 16px;
-            margin: 0 auto 4px;
+            margin: 16px auto 4px;
             align-self: center;
         }
         .settings-toggle:hover {
@@ -284,6 +326,23 @@
             max-height: 200px;
             opacity: 1;
             margin-top: 10px;
+        }
+        .settings-panel .settings-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        .settings-panel .settings-grid .editable-group {
+            flex-shrink: 0;
+        }
+        .settings-panel .skill-select-row {
+            margin-bottom: 8px;
+            justify-content: center;
+        }
+        .settings-panel .skill-select {
+            width: 200px;
         }
 
         /* Разделитель */
@@ -424,6 +483,20 @@
             70% { transform: scale(0.95) rotate(880deg); }
             85% { transform: scale(1.01) rotate(1020deg); }
             100% { transform: scale(1) rotate(1080deg); }
+        }
+        /* Покачивание для плоских кубов */
+        .dice-svg-container.rocking .dice-image {
+            animation: diceRock 1.8s cubic-bezier(0.22, 0.8, 0.36, 1);
+        }
+        @keyframes diceRock {
+            0% { transform: scale(0.25) rotate(0deg); opacity: 0; }
+            10% { transform: scale(1.05) rotate(0deg); opacity: 1; }
+            20% { transform: scale(1.12) rotate(-22deg); }
+            35% { transform: scale(0.9) rotate(18deg); }
+            50% { transform: scale(1.06) rotate(-14deg); }
+            65% { transform: scale(0.97) rotate(8deg); }
+            80% { transform: scale(1.02) rotate(-4deg); }
+            100% { transform: scale(1) rotate(0deg); }
         }
 
         /* Модификатор бейдж */
@@ -674,7 +747,8 @@
         /* ========== Адаптив ========== */
         @media (max-width: 700px) {
             .roll-history { display: none; }
-            .editable-row { flex-direction: column; gap: 8px; }
+            .settings-panel .settings-grid { flex-direction: column; align-items: center; }
+            .editable-input.skill-input { width: 200px; }
             .result-total { font-size: 42px; }
             .mode-switcher { width: 240px; }
             .mode-btn { padding: 8px 10px; font-size: 10px; }
@@ -693,6 +767,17 @@
     <div class="mode-switcher">
         <button class="mode-btn active" id="modeCheck" onclick="setMode('check')">Проверка</button>
         <button class="mode-btn" id="modeFree" onclick="setMode('free')">Бросок</button>
+    </div>
+
+    <!-- Селектор кубиков (только для свободного броска) -->
+    <div class="dice-selector hidden" id="diceSelector">
+        <button class="dice-type-btn" data-sides="4" onclick="selectDice(4)">D4</button>
+        <button class="dice-type-btn" data-sides="6" onclick="selectDice(6)">D6</button>
+        <button class="dice-type-btn" data-sides="8" onclick="selectDice(8)">D8</button>
+        <button class="dice-type-btn" data-sides="10" onclick="selectDice(10)">D10</button>
+        <button class="dice-type-btn" data-sides="12" onclick="selectDice(12)">D12</button>
+        <button class="dice-type-btn active" data-sides="20" onclick="selectDice(20)">D20</button>
+        <button class="dice-type-btn" data-sides="100" onclick="selectDice(100)">D100</button>
     </div>
 
     <!-- Отображение проверки (сверху, красиво) -->
@@ -718,7 +803,7 @@
     </div>
 
     <div class="divider"></div>
-    <div class="dice-type-label">D20</div>
+    <div class="dice-type-label" id="diceTypeLabel">D20</div>
 
     <!-- Зона кубика -->
     <div class="dice-area">
@@ -751,42 +836,12 @@
         </div>
 
         <div class="dice-svg-container" id="diceContainer" onclick="rollDice()">
-            <img class="dice-image" src="dice-d20.png" alt="D20"/>
+            <img class="dice-image" id="diceImage" src="res/images/dices/d20.png" alt="D20"/>
             <span class="dice-number" id="diceNumber">?</span>
             <div class="modifier-badge" id="modBadge">+3</div>
             <div class="spark-container" id="sparkContainer"></div>
             <div class="burst-ring" id="burstRing"></div>
         </div>
-    </div>
-
-    <!-- Кнопка настроек (под кубиком) -->
-    <button class="settings-toggle" id="settingsToggle" onclick="toggleSettings()" title="Настройки">
-        ⚙
-    </button>
-
-    <!-- Панель настроек (сворачиваемая) -->
-    <div class="settings-panel" id="settingsPanel">
-        <div class="editable-row">
-            <div class="editable-group">
-                <span class="editable-label">Навык</span>
-                <input type="text" class="editable-input skill-input" id="skillInput"
-                       value="Убеждение" spellcheck="false" maxlength="25"
-                       oninput="updateDisplay()">
-            </div>
-            <div class="editable-group">
-                <span class="editable-label">Модификатор</span>
-                <input type="number" class="editable-input mod-input" id="modInput"
-                       value="3" min="-10" max="20"
-                       oninput="updateDisplay()">
-            </div>
-        </div>
-        <div class="dc-row">
-            <span class="dc-text">Сложность (DC)</span>
-            <input type="number" class="editable-input dc-input" id="dcInput"
-                   value="15" min="1" max="30"
-                   oninput="updateDisplay()">
-        </div>
-        <div class="dc-difficulty-hint" id="dcHint">Средняя сложность</div>
     </div>
 
     <!-- Результат -->
@@ -802,6 +857,68 @@
             Бросить кубик
         </button>
     </div>
+
+    <!-- Кнопка настроек (внизу, не мешает) -->
+    <button class="settings-toggle" id="settingsToggle" onclick="toggleSettings()" title="Настройки">
+        ⚙
+    </button>
+
+    <!-- Панель настроек (сворачиваемая, внизу) -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="skill-select-row">
+            <select class="skill-select" id="skillSelect" onchange="onSkillSelect()">
+                <option value="">— выбрать —</option>
+                <optgroup label="Характеристики">
+                    <option value="Сила">Сила</option>
+                    <option value="Ловкость">Ловкость</option>
+                    <option value="Телосложение">Телосложение</option>
+                    <option value="Интеллект">Интеллект</option>
+                    <option value="Мудрость">Мудрость</option>
+                    <option value="Харизма">Харизма</option>
+                </optgroup>
+                <optgroup label="Навыки">
+                    <option value="Акробатика">Акробатика</option>
+                    <option value="Анализ">Анализ</option>
+                    <option value="Атлетика">Атлетика</option>
+                    <option value="Внимательность">Внимательность</option>
+                    <option value="Выживание">Выживание</option>
+                    <option value="Выступление">Выступление</option>
+                    <option value="Запугивание">Запугивание</option>
+                    <option value="История">История</option>
+                    <option value="Ловкость рук">Ловкость рук</option>
+                    <option value="Медицина">Медицина</option>
+                    <option value="Обман">Обман</option>
+                    <option value="Природа">Природа</option>
+                    <option value="Проницательность">Проницательность</option>
+                    <option value="Религия">Религия</option>
+                    <option value="Скрытность">Скрытность</option>
+                    <option value="Убеждение">Убеждение</option>
+                    <option value="Уход за животными">Уход за животными</option>
+                </optgroup>
+            </select>
+        </div>
+        <div class="settings-grid">
+            <div class="editable-group">
+                <span class="editable-label">Навык</span>
+                <input type="text" class="editable-input skill-input" id="skillInput"
+                       value="Убеждение" spellcheck="false" maxlength="25"
+                       oninput="updateDisplay()">
+            </div>
+            <div class="editable-group">
+                <span class="editable-label">Модификатор</span>
+                <input type="number" class="editable-input mod-input" id="modInput"
+                       value="3" min="-10" max="20"
+                       oninput="updateDisplay()">
+            </div>
+            <div class="editable-group">
+                <span class="editable-label">DC</span>
+                <input type="number" class="editable-input dc-input" id="dcInput"
+                       value="15" min="1" max="30"
+                       oninput="updateDisplay()">
+            </div>
+        </div>
+        <div class="dc-difficulty-hint" id="dcHint">Средняя сложность</div>
+    </div>
 </div>
 
 <!-- История -->
@@ -816,6 +933,17 @@
     // ==================== СОСТОЯНИЕ ====================
     let isRolling = false;
     let currentMode = 'check'; // 'check' | 'free'
+    let currentDice = 20;      // текущий тип кубика
+    const DICE_SIDES = [4, 6, 8, 10, 12, 20, 100];
+    const DICE_IMAGES = {
+        4: 'res/images/dices/d4.png',
+        6: 'res/images/dices/d6.png',
+        8: 'res/images/dices/d8.png',
+        10: 'res/images/dices/d10.png',
+        12: 'res/images/dices/d12.png',
+        20: 'res/images/dices/d20.png',
+        100: 'res/images/dices/d100.png'
+    };
 
     // ==================== ИНИЦИАЛИЗАЦИЯ ====================
     function init() {
@@ -867,6 +995,7 @@
         const freeDisplay = document.getElementById('freeDisplay');
         const dcRing = document.getElementById('dcRing');
         const settingsToggle = document.getElementById('settingsToggle');
+        const diceSelector = document.getElementById('diceSelector');
 
         if (mode === 'check') {
             checkDisplay.classList.remove('hidden');
@@ -875,6 +1004,10 @@
             freeDisplay.classList.add('hidden');
             dcRing.classList.remove('hidden');
             settingsToggle.style.display = 'flex';
+            diceSelector.classList.remove('visible');
+            diceSelector.classList.add('hidden');
+            // В режиме проверки всегда D20
+            selectDice(20);
             updateDisplay();
         } else {
             checkDisplay.classList.remove('visible');
@@ -882,10 +1015,30 @@
             freeDisplay.classList.remove('hidden');
             freeDisplay.classList.add('visible');
             dcRing.classList.add('hidden');
-            settingsToggle.style.display = 'none';
+            settingsToggle.style.display = 'flex';
+            diceSelector.classList.remove('hidden');
+            diceSelector.classList.add('visible');
         }
 
         // Сброс результата при смене режима
+        resetResult();
+    }
+
+    // ==================== ВЫБОР КУБИКА ====================
+    function selectDice(sides) {
+        currentDice = sides;
+
+        // Обновляем активную кнопку
+        document.querySelectorAll('.dice-type-btn').forEach(btn => {
+            btn.classList.toggle('active', parseInt(btn.dataset.sides) === sides);
+        });
+
+        // Обновляем изображение и лейбл
+        document.getElementById('diceImage').src = DICE_IMAGES[sides];
+        document.getElementById('diceImage').alt = 'D' + sides;
+        document.getElementById('diceTypeLabel').textContent = 'D' + sides;
+
+        // Сброс результата
         resetResult();
     }
 
@@ -916,6 +1069,16 @@
     function toggleSettings() {
         const panel = document.getElementById('settingsPanel');
         panel.classList.toggle('open');
+    }
+
+    // ==================== SKILL SELECT ====================
+    function onSkillSelect() {
+        const select = document.getElementById('skillSelect');
+        const skillInput = document.getElementById('skillInput');
+        if (select.value) {
+            skillInput.value = select.value;
+            updateDisplay();
+        }
     }
 
     // ==================== GETTERS ====================
@@ -970,7 +1133,7 @@
         ensureAudio();
         const now = audioCtx.currentTime;
 
-        if (type === 'nat20') {
+        if (type === 'nat20' || type === 'nat100') {
             const freqs = [261.6, 329.6, 392, 523.3, 659.3, 784];
             freqs.forEach((f, i) => {
                 const osc = audioCtx.createOscillator();
@@ -1044,8 +1207,9 @@
         btn.disabled = true;
         resetResult();
 
-        const diceRoll = Math.floor(Math.random() * 20) + 1;
-        const isNat20 = diceRoll === 20;
+        const sides = currentDice;
+        const diceRoll = Math.floor(Math.random() * sides) + 1;
+        const isNatMax = diceRoll === sides;  // максимальное значение
         const isNat1 = diceRoll === 1;
 
         let modifier = 0;
@@ -1055,35 +1219,39 @@
         let resultType = 'neutral';
 
         if (currentMode === 'check') {
+            // Режим проверки — только D20
             modifier = getModifier();
             dc = getDC();
             total = diceRoll + modifier;
             isSuccess = total >= dc;
 
-            if (isNat20) resultType = 'nat20';
+            if (diceRoll === 20) resultType = 'nat20';
             else if (isNat1) resultType = 'nat1';
             else if (isSuccess) resultType = 'success';
             else resultType = 'failure';
         } else {
             // Свободный бросок
-            if (isNat20) resultType = 'nat20';
+            if (isNatMax && sides === 20) resultType = 'nat20';
+            else if (isNatMax && sides === 100) resultType = 'nat100';
             else if (isNat1) resultType = 'nat1';
             else resultType = 'neutral';
         }
 
         // Анимация
         const container = document.getElementById('diceContainer');
-        container.classList.add('rolling');
+        const useRocking = [4, 10, 100].includes(sides);
+        container.classList.add(useRocking ? 'rocking' : 'rolling');
 
         playRollSound();
 
         setTimeout(() => {
-            container.classList.remove('rolling');
+            container.classList.remove('rocking', 'rolling');
 
             const diceNum = document.getElementById('diceNumber');
             diceNum.textContent = diceRoll;
             diceNum.className = 'dice-number visible';
-            if (isNat20) diceNum.classList.add('nat20');
+            if (diceRoll === 20 && sides === 20) diceNum.classList.add('nat20');
+            if (diceRoll === 100 && sides === 100) diceNum.classList.add('nat20');
             if (isNat1) diceNum.classList.add('nat1');
 
             playResultSound(resultType);
@@ -1169,7 +1337,7 @@
 
         // Цвет числа
         switch (resultType) {
-            case 'nat20': resultTotal.classList.add('nat20'); break;
+            case 'nat20': case 'nat100': resultTotal.classList.add('nat20'); break;
             case 'success': resultTotal.classList.add('success'); break;
             case 'failure': resultTotal.classList.add('failure'); break;
             case 'nat1': resultTotal.classList.add('failure'); break;
@@ -1185,7 +1353,7 @@
                 `${modSign}<span class="${modClass}">${modifier}</span>` +
                 ` &nbsp;→&nbsp; DC ${dc}`;
         } else {
-            resultBreakdown.innerHTML = `Результат броска D20`;
+            resultBreakdown.innerHTML = `Бросок D${currentDice}`;
         }
         resultBreakdown.classList.add('visible');
 
@@ -1215,6 +1383,9 @@
             if (resultType === 'nat20') {
                 resultLabel.textContent = '✦ НАТУРАЛЬНАЯ 20 ✦';
                 resultLabel.className = 'result-label visible critical';
+            } else if (resultType === 'nat100') {
+                resultLabel.textContent = '✦ НАТУРАЛЬНАЯ 100 ✦';
+                resultLabel.className = 'result-label visible critical';
             } else if (resultType === 'nat1') {
                 resultLabel.textContent = '✦ НАТУРАЛЬНАЯ 1 ✦';
                 resultLabel.className = 'result-label visible failure';
@@ -1239,7 +1410,7 @@
 
         let count, colorClass;
         switch (resultType) {
-            case 'nat20': count = 35; colorClass = 'gold'; break;
+            case 'nat20': case 'nat100': count = 35; colorClass = 'gold'; break;
             case 'nat1': count = 22; colorClass = 'red'; break;
             case 'success': count = 16; colorClass = 'green'; break;
             case 'failure': count = 12; colorClass = 'red'; break;
@@ -1262,7 +1433,7 @@
         const ring = document.getElementById('burstRing');
         ring.className = 'burst-ring';
         switch (resultType) {
-            case 'nat20': ring.classList.add('nat20'); break;
+            case 'nat20': case 'nat100': ring.classList.add('nat20'); break;
             case 'success': ring.classList.add('success'); break;
             case 'failure': case 'nat1': ring.classList.add('failure'); break;
             default: ring.classList.add('neutral'); break;
@@ -1275,7 +1446,7 @@
         const flash = document.getElementById('critFlash');
         flash.className = 'crit-flash';
         switch (resultType) {
-            case 'nat20': flash.classList.add('nat20'); break;
+            case 'nat20': case 'nat100': flash.classList.add('nat20'); break;
             case 'success': flash.classList.add('success'); break;
             case 'failure': case 'nat1': flash.classList.add('failure'); break;
         }
@@ -1296,6 +1467,7 @@
         } else {
             switch (resultType) {
                 case 'nat20': statusClass = 'nat20'; label = 'Нат 20!'; break;
+                case 'nat100': statusClass = 'nat20'; label = 'Нат 100!'; break;
                 case 'nat1': statusClass = 'failure'; label = 'Нат 1'; break;
                 default: statusClass = 'neutral'; label = 'Бросок'; break;
             }
@@ -1304,7 +1476,7 @@
         const displayValue = currentMode === 'check' ? total : diceRoll;
         const detailText = currentMode === 'check'
             ? `[${diceRoll}]${modifier >= 0 ? '+' : ''}${modifier}`
-            : `[${diceRoll}]`;
+            : `D${currentDice}: [${diceRoll}]`;
 
         const item = document.createElement('div');
         item.className = `history-item ${statusClass}`;
