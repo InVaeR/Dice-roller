@@ -517,8 +517,6 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 24px;
-            overflow: hidden;
-            contain: layout;
         }
 
         .dice-glow {
@@ -717,7 +715,11 @@
         /* ========== Результат ========== */
         .result-area {
             text-align: center;
-            min-height: 90px;
+            min-height: 130px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
         }
         .result-total {
             font-family: 'Cinzel Decorative', serif;
