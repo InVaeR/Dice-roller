@@ -586,11 +586,23 @@
         .dice-image {
             width: 100%; height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(200,160,60,0.3));
+            filter: 
+                drop-shadow(0 0 15px rgba(200,160,60,0.3))
+                invert(1)
+                sepia(1)
+                hue-rotate(5deg)
+                saturate(2.5)
+                brightness(0.9);
             transition: filter 0.3s, transform 0.3s;
         }
         .dice-svg-container:hover .dice-image {
-            filter: drop-shadow(0 0 25px rgba(200,160,60,0.6));
+            filter: 
+                drop-shadow(0 0 25px rgba(200,160,60,0.6))
+                invert(1)
+                sepia(1)
+                hue-rotate(5deg)
+                saturate(3)
+                brightness(1);
             transform: scale(1.05);
         }
         .dice-number {
