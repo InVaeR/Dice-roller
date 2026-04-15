@@ -631,6 +631,34 @@
             box-shadow: var(--reset-hover-shadow);
         }
 
+        /* Об авторе */
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .author-info a {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.3s;
+        }
+        .author-info a:hover {
+            color: var(--text-primary);
+        }
+        .author-icon {
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+        .author-info a:hover .author-icon {
+            opacity: 1;
+        }
+
         /* Разделитель */
         .divider {
             width: 200px;
@@ -1276,6 +1304,20 @@
         <div class="settings-section">
             <div class="settings-section-title">Данные</div>
             <button class="reset-btn" onclick="resetSavedSkills()">Сбросить модификаторы</button>
+        </div>
+
+        <!-- Об авторе -->
+        <div class="settings-section">
+            <div class="settings-section-title">Об авторе</div>
+            <div class="author-info">
+                <span>Груздков Д.А.</span>
+                <a href="https://vk.com/invaer" target="_blank" rel="noopener noreferrer">
+                    <svg class="author-icon" viewBox="0 0 24 24" width="16" height="16">
+                        <path fill="currentColor" d="M12.785 16.241s.288-.032.436-.194c.136-.148.132-.427.132-.427s-.02-1.304.587-1.496c.598-.188 1.367 1.259 2.181 1.814.615.42 1.083.328 1.083.328l2.175-.03s1.14-.07.6-.964c-.045-.073-.318-.661-1.637-1.869-1.38-1.264-1.195-1.06.467-3.248.876-1.152 1.408-1.97 1.118-2.286-.276-.3-.902-.263-.902-.263l-2.45.015s-.182-.025-.316.056c-.131.079-.216.263-.216.263s-.388 1.032-.905 1.91c-1.091 1.853-1.527 1.951-1.707 1.837-.417-.265-.313-1.065-.313-1.637 0-1.789.271-2.531-.528-2.725-.266-.064-.461-.106-1.14-.113-.87-.009-1.606.003-2.024.207-.278.136-.492.438-.362.455.161.021.526.098.719.36.249.339.24 1.101.24 1.101s.143 2.09-.333 2.348c-.327.178-.775-.185-1.74-1.843-.494-.85-.868-1.79-.868-1.79s-.072-.176-.2-.271c-.155-.115-.372-.151-.372-.151l-2.328.015s-.35.01-.478.162c-.114.135-.01.414-.01.414s1.82 4.258 3.879 6.403c1.886 1.963 4.032 1.833 4.032 1.833h.975z"/>
+                    </svg>
+                    VK
+                </a>
+            </div>
         </div>
     </div>
 </div>
