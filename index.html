@@ -745,25 +745,15 @@
             transform: scale(1.05);
         }
 
-        /* Светлая тема — золотистое свечение для кубика */
+        /* Светлая тема — чёрный кубик с золотистым свечением */
         body.light-theme .dice-image {
             filter: 
-                drop-shadow(0 0 15px rgba(180,140,40,0.5))
-                invert(1)
-                sepia(1)
-                hue-rotate(5deg)
-                saturate(2.5)
-                brightness(0.85);
+                drop-shadow(0 0 15px rgba(200,160,60,0.5));
             transition: filter 0.3s, transform 0.3s;
         }
         body.light-theme .dice-svg-container:hover .dice-image {
             filter: 
-                drop-shadow(0 0 25px rgba(180,140,40,0.8))
-                invert(1)
-                sepia(1)
-                hue-rotate(5deg)
-                saturate(3)
-                brightness(0.95);
+                drop-shadow(0 0 25px rgba(200,160,60,0.8));
             transform: scale(1.05);
         }
         .dice-number {
