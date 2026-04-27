@@ -44,9 +44,9 @@
     flex-wrap: wrap;
     gap: 6px;
     margin-bottom: 12px;
-    transition: opacity 0.3s, max-height 0.4s;
-    overflow: hidden;
-    max-height: 80px;
+    padding: 4px 0; /* небольшой запас для приподнимания на hover */
+    transition: opacity 0.3s, max-height 0.4s, margin-bottom 0.4s, padding 0.4s;
+    max-height: 100px;
     opacity: 1;
 }
 
@@ -54,6 +54,9 @@
     max-height: 0;
     opacity: 0;
     margin-bottom: 0;
+    padding: 0;
+    overflow: hidden; /* обрезание только в свёрнутом состоянии */
+    pointer-events: none;
 }
 
 .dice-type-btn {

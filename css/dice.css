@@ -102,18 +102,9 @@ body.fast-mode .rune-ring {
     transition: color 0.5s, text-shadow 0.5s;
 }
 
+/* Просто inline-блок без анимации — руна следует ориентации .rune */
 .rune-inner {
     display: inline-block;
-    animation: counterRotateRunes 60s linear infinite;
-}
-
-body.fast-mode .rune-inner {
-    animation-duration: 30s;
-}
-
-@keyframes counterRotateRunes {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(-360deg); }
 }
 
 /* ========== Кубик ========== */
