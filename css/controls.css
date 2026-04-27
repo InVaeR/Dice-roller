@@ -1,0 +1,293 @@
+/* ========== Переключатель режимов ========== */
+.mode-switcher {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    padding: 4px;
+    border: 1px solid var(--border-primary);
+    width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mode-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.mode-btn:hover {
+    color: var(--text-primary);
+}
+
+.mode-btn.active {
+    background: var(--bg-active);
+    color: var(--text-primary);
+    box-shadow: inset 0 0 8px var(--glow-primary);
+}
+
+/* ========== Селектор кубика ========== */
+.dice-selector {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+    transition: opacity 0.3s, max-height 0.4s;
+    overflow: hidden;
+    max-height: 80px;
+    opacity: 1;
+}
+
+.dice-selector.hidden {
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+}
+
+.dice-type-btn {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-secondary);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.25s;
+    min-width: 56px;
+}
+
+.dice-type-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+    transform: translateY(-1px);
+}
+
+.dice-type-btn.active {
+    background: var(--bg-active);
+    color: var(--text-primary);
+    border-color: var(--border-active);
+    box-shadow: 0 0 10px var(--glow-primary);
+}
+
+/* ========== Селектор количества ========== */
+.count-selector {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto 14px;
+    padding: 6px 14px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    transition: opacity 0.3s, max-height 0.4s, margin 0.4s;
+    overflow: hidden;
+    max-height: 60px;
+    opacity: 1;
+}
+
+.count-selector.hidden {
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: 0 solid transparent;
+}
+
+.count-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.count-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--bg-active);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.count-btn:hover:not(:disabled) {
+    border-color: var(--border-active);
+    box-shadow: 0 0 8px var(--glow-primary);
+    transform: translateY(-1px);
+}
+
+.count-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.count-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    min-width: 28px;
+    text-align: center;
+    text-shadow: 0 0 8px var(--glow-primary);
+}
+
+.count-suffix {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+}
+
+/* ========== Кнопка броска ========== */
+.buttons-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.roll-btn {
+    background: linear-gradient(135deg, rgba(180, 140, 60, 0.15), rgba(120, 80, 30, 0.2));
+    border: 1px solid var(--border-active);
+    color: var(--text-primary);
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    padding: 12px 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+}
+
+.roll-btn:hover:not(:disabled) {
+    border-color: var(--border-hover);
+    box-shadow: 0 0 20px var(--glow-strong),
+        inset 0 0 15px var(--glow-primary);
+    transform: translateY(-1px);
+}
+
+.roll-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.roll-btn:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+.roll-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.roll-btn:hover::before {
+    left: 100%;
+}
+
+/* ========== Дисплей проверки/броска ========== */
+.check-display {
+    margin: 12px 0 4px;
+    transition: opacity 0.3s, transform 0.3s, max-height 0.4s;
+    overflow: hidden;
+    max-height: 200px;
+}
+
+.check-display.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+    margin: 0;
+}
+
+.check-display.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.display-skill-name {
+    font-family: 'Cinzel Decorative', 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--text-primary);
+    text-shadow: 0 0 12px var(--glow-strong);
+    margin-bottom: 10px;
+}
+
+.display-mod-dc {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.display-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.display-badge-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.display-badge-value {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--text-primary);
+    text-shadow: 0 0 8px var(--glow-strong);
+}
+
+.display-badge-value.positive { color: var(--positive-color); }
+.display-badge-value.negative { color: var(--negative-color); }
+
+.free-display-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+}
+
+/* ========== Лейбл типа кубика ========== */
+.dice-type-label {
+    font-family: 'Cinzel Decorative', 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--text-secondary);
+    text-shadow: 0 0 10px var(--glow-primary);
+    margin-bottom: 6px;
+    transition: color 0.5s;
+}

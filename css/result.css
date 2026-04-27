@@ -1,0 +1,231 @@
+/* ========== Зона результата ========== */
+.result-area {
+    margin-top: 8px;
+    min-height: 110px;
+    transition: all 0.3s;
+}
+
+.result-total {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+body.fast-mode .result-total {
+    transition-duration: 0.2s;
+}
+
+.result-total.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.result-total.nat20 {
+    color: #ffd700;
+    text-shadow:
+        0 0 20px #ffd700,
+        0 0 40px #ffaa00;
+}
+
+.result-total.success {
+    color: var(--positive-color);
+    text-shadow: 0 0 18px rgba(100, 230, 100, 0.6);
+}
+
+.result-total.failure {
+    color: var(--negative-color);
+    text-shadow: 0 0 18px rgba(230, 100, 100, 0.6);
+}
+
+.result-total.neutral {
+    color: var(--text-primary);
+    text-shadow: 0 0 18px var(--glow-strong);
+}
+
+.result-breakdown {
+    font-size: 13px;
+    color: var(--text-secondary);
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    opacity: 0;
+    transition: opacity 0.4s 0.1s;
+}
+
+body.fast-mode .result-breakdown {
+    transition: opacity 0.2s;
+}
+
+.result-breakdown.visible {
+    opacity: 1;
+}
+
+.result-breakdown .roll-val {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.result-breakdown .mod-val {
+    color: var(--positive-color);
+    font-weight: 700;
+}
+
+.result-breakdown .mod-val.neg {
+    color: var(--negative-color);
+}
+
+.rolls-list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    margin-top: 4px;
+    max-width: 95%;
+}
+
+.roll-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 7px;
+    border-radius: 6px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.roll-chip.crit-max {
+    color: #ffd700;
+    border-color: #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.roll-chip.crit-min {
+    color: #ff5555;
+    border-color: #ff5555;
+    box-shadow: 0 0 10px rgba(255, 80, 80, 0.5);
+}
+
+.result-label {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.4s 0.2s;
+}
+
+body.fast-mode .result-label {
+    transition: opacity 0.2s 0.1s;
+}
+
+.result-label.visible {
+    opacity: 1;
+}
+
+.result-label.critical {
+    color: #ffd700;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+    animation: textGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+    0%, 100% { text-shadow: 0 0 12px rgba(255, 215, 0, 0.7); }
+    50% { text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 30px rgba(255, 170, 0, 0.7); }
+}
+
+.result-label.success {
+    color: var(--positive-color);
+    text-shadow: 0 0 10px rgba(100, 230, 100, 0.6);
+}
+
+.result-label.failure {
+    color: var(--negative-color);
+    text-shadow: 0 0 10px rgba(230, 100, 100, 0.6);
+}
+
+.result-label.neutral {
+    color: var(--text-secondary);
+}
+
+/* ========== История бросков ========== */
+.roll-history {
+    position: fixed;
+    top: 60px;
+    right: 14px;
+    width: 200px;
+    max-height: 70vh;
+    overflow-y: auto;
+    z-index: 18;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-right: 4px;
+}
+
+.history-item {
+    background: var(--history-bg);
+    border: 1px solid var(--history-border);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    animation: slideInRight 0.4s ease-out;
+    pointer-events: auto;
+    transition: background 0.5s, border-color 0.5s, color 0.5s;
+}
+
+body.fast-mode .history-item {
+    animation-duration: 0.2s;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.history-item.nat20 {
+    border-color: rgba(255, 215, 0, 0.55);
+    color: #d4af6f;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+}
+
+.history-item.success {
+    border-color: rgba(100, 200, 100, 0.45);
+}
+
+.history-item.failure {
+    border-color: rgba(200, 100, 100, 0.45);
+}
+
+.history-item.neutral {
+    border-color: var(--history-border);
+}
+
+.history-item .hist-result {
+    font-family: 'Cinzel Decorative', serif;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-right: 4px;
+}

@@ -1,0 +1,380 @@
+/* ========== Зона кубика ========== */
+.dice-area {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 6px auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dice-glow {
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--glow-strong) 0%, transparent 70%);
+    filter: blur(20px);
+    animation: pulse 4s ease-in-out infinite;
+    transition: background 0.5s;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+/* ========== DC-кольцо ========== */
+.dc-ring {
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    pointer-events: none;
+    transition: opacity 0.4s;
+}
+
+.dc-ring.hidden {
+    opacity: 0;
+}
+
+.dc-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.dc-ring-bg {
+    fill: none;
+    stroke: var(--border-primary);
+    stroke-width: 2;
+}
+
+.dc-ring-fill {
+    fill: none;
+    stroke: var(--text-primary);
+    stroke-width: 3;
+    stroke-dasharray: 565.48;
+    stroke-dashoffset: 565.48;
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        stroke 0.4s;
+    filter: drop-shadow(0 0 4px var(--text-primary));
+}
+
+.dc-ring-fill.success { stroke: var(--positive-color); filter: drop-shadow(0 0 6px var(--positive-color)); }
+.dc-ring-fill.failure { stroke: var(--negative-color); filter: drop-shadow(0 0 6px var(--negative-color)); }
+
+/* Быстрая анимация — DC-кольцо */
+body.fast-mode .dc-ring-fill {
+    transition: stroke-dashoffset 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        stroke 0.2s;
+}
+
+/* ========== Руны ========== */
+.rune-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation: rotateRunes 60s linear infinite;
+}
+
+body.fast-mode .rune-ring {
+    animation-duration: 30s;
+}
+
+@keyframes rotateRunes {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.rune {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--rune-color);
+    font-size: 18px;
+    text-shadow: 0 0 8px var(--rune-shadow);
+    transition: color 0.5s, text-shadow 0.5s;
+}
+
+.rune-inner {
+    display: inline-block;
+    animation: counterRotateRunes 60s linear infinite;
+}
+
+body.fast-mode .rune-inner {
+    animation-duration: 30s;
+}
+
+@keyframes counterRotateRunes {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+}
+
+/* ========== Кубик ========== */
+.dice-svg-container {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    cursor: pointer;
+    transition: filter 0.4s;
+    z-index: 2;
+}
+
+.dice-svg-container:hover .dice-image {
+    filter: drop-shadow(0 0 25px var(--dice-glow-hover));
+}
+
+.dice-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 15px var(--dice-glow));
+    transition: transform 0.3s, filter 0.4s;
+    pointer-events: none;
+}
+
+/* Анимация броска: вращение */
+.dice-svg-container.rolling .dice-image {
+    animation: tumble 2s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@keyframes tumble {
+    0% { transform: rotate(0) scale(1); }
+    20% { transform: rotate(540deg) scale(1.1); }
+    50% { transform: rotate(1260deg) scale(1.15); }
+    80% { transform: rotate(1980deg) scale(1.05); }
+    100% { transform: rotate(2520deg) scale(1); }
+}
+
+/* Быстрая версия — короче и без сильного увеличения */
+.dice-svg-container.rolling-fast .dice-image {
+    animation: tumbleFast 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@keyframes tumbleFast {
+    0% { transform: rotate(0) scale(1); }
+    50% { transform: rotate(540deg) scale(1.08); }
+    100% { transform: rotate(900deg) scale(1); }
+}
+
+/* Анимация броска: покачивание (для D4, D10, D100) */
+.dice-svg-container.rocking .dice-image {
+    animation: rocking 2s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes rocking {
+    0% { transform: rotate(0) scale(1); }
+    10% { transform: rotate(-15deg) scale(1.05); }
+    20% { transform: rotate(20deg) scale(1.08); }
+    30% { transform: rotate(-25deg) scale(1.1); }
+    40% { transform: rotate(28deg) scale(1.1); }
+    50% { transform: rotate(-22deg) scale(1.08); }
+    60% { transform: rotate(15deg) scale(1.05); }
+    70% { transform: rotate(-8deg) scale(1.03); }
+    80% { transform: rotate(5deg) scale(1.01); }
+    100% { transform: rotate(0) scale(1); }
+}
+
+.dice-svg-container.rocking-fast .dice-image {
+    animation: rockingFast 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes rockingFast {
+    0% { transform: rotate(0) scale(1); }
+    25% { transform: rotate(-20deg) scale(1.06); }
+    50% { transform: rotate(22deg) scale(1.08); }
+    75% { transform: rotate(-12deg) scale(1.04); }
+    100% { transform: rotate(0) scale(1); }
+}
+
+/* ========== Число на кубике ========== */
+.dice-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--text-primary);
+    text-shadow:
+        0 0 20px var(--text-primary),
+        0 0 40px var(--glow-strong),
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s, color 0.3s, text-shadow 0.3s;
+    z-index: 3;
+}
+
+.dice-number.visible {
+    opacity: 1;
+}
+
+.dice-number.nat20 {
+    color: #ffd700;
+    text-shadow:
+        0 0 25px #ffd700,
+        0 0 50px #ffaa00,
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+    animation: nat20Pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes nat20Pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.08); }
+}
+
+.dice-number.nat1 {
+    color: #ff4444;
+    text-shadow:
+        0 0 25px #ff4444,
+        0 0 50px #aa0000,
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* ========== Бейдж количества кубов ========== */
+.multi-badge {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    background: linear-gradient(135deg, rgba(120, 80, 30, 0.9), rgba(80, 50, 20, 0.95));
+    border: 2px solid var(--border-active);
+    color: var(--text-primary);
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 4px 9px;
+    border-radius: 14px;
+    box-shadow: 0 0 12px var(--glow-strong);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 4;
+}
+
+.multi-badge.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ========== Бейдж модификатора ========== */
+.modifier-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: linear-gradient(135deg, rgba(40, 80, 40, 0.9), rgba(30, 60, 30, 0.95));
+    border: 2px solid rgba(100, 180, 80, 0.6);
+    color: var(--positive-color);
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 5px 10px;
+    border-radius: 14px;
+    box-shadow: 0 0 12px rgba(100, 180, 80, 0.4);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s;
+    z-index: 4;
+}
+.modifier-badge.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.modifier-badge.negative {
+    background: linear-gradient(135deg, rgba(80, 40, 40, 0.9), rgba(60, 30, 30, 0.95));
+    border-color: rgba(180, 100, 80, 0.6);
+    color: var(--negative-color);
+    box-shadow: 0 0 12px rgba(180, 80, 80, 0.4);
+}
+
+/* ========== Искры ========== */
+.spark-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.spark {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.spark.gold { background: #ffd700; box-shadow: 0 0 8px #ffd700, 0 0 14px #ffaa00; }
+.spark.green { background: #5ce05c; box-shadow: 0 0 8px #5ce05c, 0 0 14px #2da82d; }
+.spark.red { background: #ff5555; box-shadow: 0 0 8px #ff5555, 0 0 14px #aa0000; }
+.spark.white { background: #d4af6f; box-shadow: 0 0 8px #d4af6f; }
+
+.spark.animate {
+    animation: sparkFly 0.9s ease-out forwards;
+}
+
+body.fast-mode .spark.animate {
+    animation-duration: 0.5s;
+}
+
+@keyframes sparkFly {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy))) scale(0.4);
+    }
+}
+
+/* ========== Кольцо взрыва ========== */
+.burst-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.burst-ring.animate {
+    animation: burstRing 0.8s ease-out forwards;
+}
+
+body.fast-mode .burst-ring.animate {
+    animation-duration: 0.4s;
+}
+
+.burst-ring.nat20 { border-color: #ffd700; box-shadow: 0 0 30px #ffd700, inset 0 0 20px #ffaa00; }
+.burst-ring.success { border-color: #5ce05c; box-shadow: 0 0 25px #5ce05c, inset 0 0 15px #2da82d; }
+.burst-ring.failure { border-color: #ff5555; box-shadow: 0 0 25px #ff5555, inset 0 0 15px #aa0000; }
+.burst-ring.neutral { border-color: var(--text-primary); box-shadow: 0 0 20px var(--glow-strong); }
+
+@keyframes burstRing {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 0;
+    }
+}

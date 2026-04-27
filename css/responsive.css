@@ -1,0 +1,41 @@
+@media (max-width: 600px) {
+    body { padding: 14px; }
+
+    .author-link-top {
+        font-size: 10px;
+        padding: 5px 12px;
+        letter-spacing: 1px;
+    }
+
+    .display-skill-name { font-size: 18px; letter-spacing: 3px; }
+    .display-mod-dc { gap: 18px; }
+    .display-badge-value { font-size: 16px; }
+
+    .dice-area { width: 240px; height: 240px; }
+    .dice-glow { width: 200px; height: 200px; }
+    .dc-ring { width: 200px; height: 200px; }
+    .dice-svg-container { width: 130px; height: 130px; }
+    .dice-number { font-size: 52px; }
+
+    .result-total { font-size: 44px; }
+    .result-label { font-size: 12px; letter-spacing: 4px; }
+
+    .roll-history { width: 160px; top: 56px; right: 8px; }
+    .history-item { font-size: 10px; padding: 6px 8px; }
+
+    .key-hint { display: none; }
+
+    .mode-btn { padding: 9px 10px; font-size: 11px; letter-spacing: 1.5px; }
+    .mode-switcher { width: 240px; }
+
+    .dice-type-btn { padding: 7px 10px; font-size: 10px; min-width: 48px; }
+
+    .settings-grid { grid-template-columns: 1fr; }
+
+    .roll-btn { padding: 11px 28px; font-size: 12px; letter-spacing: 3px; }
+}
+
+@media (max-width: 380px) {
+    .author-link-top { display: none; }
+    .roll-history { display: none; }
+}
