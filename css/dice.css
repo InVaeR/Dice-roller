@@ -1,8 +1,8 @@
 /* ========== Зона кубика ========== */
 .dice-area {
     position: relative;
-    width: 280px;
-    height: 280px;
+    width: 320px;
+    height: 320px;
     margin: 6px auto 14px;
     display: flex;
     align-items: center;
@@ -11,8 +11,8 @@
 
 .dice-glow {
     position: absolute;
-    width: 240px;
-    height: 240px;
+    width: 280px;
+    height: 280px;
     border-radius: 50%;
     background: radial-gradient(circle, var(--glow-strong) 0%, transparent 70%);
     filter: blur(20px);
@@ -28,8 +28,8 @@
 /* ========== DC-кольцо ========== */
 .dc-ring {
     position: absolute;
-    width: 230px;
-    height: 230px;
+    width: 270px;
+    height: 270px;
     pointer-events: none;
     transition: opacity 0.4s;
 }
@@ -102,7 +102,7 @@ body.fast-mode .rune-ring {
     transition: color 0.5s, text-shadow 0.5s;
 }
 
-/* Просто inline-блок без анимации — руна следует ориентации .rune */
+/* Руна следует ориентации .rune (без встречного вращения) */
 .rune-inner {
     display: inline-block;
 }
@@ -110,24 +110,52 @@ body.fast-mode .rune-ring {
 /* ========== Кубик ========== */
 .dice-svg-container {
     position: relative;
-    width: 160px;
-    height: 160px;
+    width: 220px;
+    height: 220px;
     cursor: pointer;
     transition: filter 0.4s;
     z-index: 2;
-}
-
-.dice-svg-container:hover .dice-image {
-    filter: drop-shadow(0 0 25px var(--dice-glow-hover));
 }
 
 .dice-image {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 0 15px var(--dice-glow));
+    /* Тёмная тема: инвертируем чёрный кубик в светлый + двойное золотистое свечение */
+    filter:
+        invert(1)
+        sepia(1)
+        saturate(2)
+        hue-rotate(5deg)
+        brightness(1.1)
+        drop-shadow(0 0 12px var(--dice-glow))
+        drop-shadow(0 0 24px var(--dice-glow));
     transition: transform 0.3s, filter 0.4s;
     pointer-events: none;
+}
+
+.dice-svg-container:hover .dice-image {
+    filter:
+        invert(1)
+        sepia(1)
+        saturate(2.5)
+        hue-rotate(5deg)
+        brightness(1.2)
+        drop-shadow(0 0 18px var(--dice-glow-hover))
+        drop-shadow(0 0 35px var(--dice-glow-hover));
+}
+
+/* Светлая тема: оставляем чёрный кубик, только мягкое золотистое свечение */
+body.light-theme .dice-image {
+    filter:
+        drop-shadow(0 0 12px var(--dice-glow))
+        drop-shadow(0 0 22px var(--dice-glow));
+}
+
+body.light-theme .dice-svg-container:hover .dice-image {
+    filter:
+        drop-shadow(0 0 18px var(--dice-glow-hover))
+        drop-shadow(0 0 32px var(--dice-glow-hover));
 }
 
 /* Анимация броска: вращение */
@@ -184,14 +212,14 @@ body.fast-mode .rune-ring {
     100% { transform: rotate(0) scale(1); }
 }
 
-/* ========== Число на кубике ========== */
+/* ========== Число на кубике (используется только для превью во время броска) ========== */
 .dice-number {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: 'Cinzel Decorative', serif;
-    font-size: 64px;
+    font-size: 84px;
     font-weight: 900;
     color: var(--text-primary);
     text-shadow:

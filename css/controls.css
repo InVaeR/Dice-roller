@@ -44,7 +44,7 @@
     flex-wrap: wrap;
     gap: 6px;
     margin-bottom: 12px;
-    padding: 4px 0; /* небольшой запас для приподнимания на hover */
+    padding: 4px 0;
     transition: opacity 0.3s, max-height 0.4s, margin-bottom 0.4s, padding 0.4s;
     max-height: 100px;
     opacity: 1;
@@ -55,7 +55,7 @@
     opacity: 0;
     margin-bottom: 0;
     padding: 0;
-    overflow: hidden; /* обрезание только в свёрнутом состоянии */
+    overflow: hidden;
     pointer-events: none;
 }
 
@@ -98,7 +98,6 @@
     border: 1px solid var(--border-primary);
     border-radius: 8px;
     transition: opacity 0.3s, max-height 0.4s, margin 0.4s;
-    overflow: hidden;
     max-height: 60px;
     opacity: 1;
 }
@@ -110,6 +109,8 @@
     padding-top: 0;
     padding-bottom: 0;
     border: 0 solid transparent;
+    overflow: hidden;
+    pointer-events: none;
 }
 
 .count-label {

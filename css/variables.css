@@ -25,8 +25,8 @@
     --rune-color: rgba(180, 140, 60, 0.4);
     --rune-shadow: rgba(180, 140, 60, 0.3);
 
-    --dice-glow: rgba(180, 140, 60, 0.6);
-    --dice-glow-hover: rgba(212, 175, 111, 0.8);
+    --dice-glow: rgba(212, 175, 111, 0.75);
+    --dice-glow-hover: rgba(232, 200, 140, 1);
 
     --section-border: rgba(180, 140, 60, 0.2);
     --section-title: #6b5840;
@@ -84,8 +84,8 @@ body.light-theme {
     --rune-color: rgba(120, 80, 30, 0.5);
     --rune-shadow: rgba(120, 80, 30, 0.3);
 
-    --dice-glow: rgba(200, 160, 60, 0.5);
-    --dice-glow-hover: rgba(220, 180, 80, 0.8);
+    --dice-glow: rgba(200, 160, 60, 0.55);
+    --dice-glow-hover: rgba(220, 180, 80, 0.85);
 
     --section-border: rgba(150, 110, 50, 0.3);
     --section-title: #8b6f3f;

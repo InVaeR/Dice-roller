@@ -11,11 +11,11 @@
     .display-mod-dc { gap: 18px; }
     .display-badge-value { font-size: 16px; }
 
-    .dice-area { width: 240px; height: 240px; }
-    .dice-glow { width: 200px; height: 200px; }
-    .dc-ring { width: 200px; height: 200px; }
-    .dice-svg-container { width: 130px; height: 130px; }
-    .dice-number { font-size: 52px; }
+    .dice-area { width: 280px; height: 280px; }
+    .dice-glow { width: 240px; height: 240px; }
+    .dc-ring { width: 230px; height: 230px; }
+    .dice-svg-container { width: 180px; height: 180px; }
+    .dice-number { font-size: 68px; }
 
     .result-total { font-size: 44px; }
     .result-label { font-size: 12px; letter-spacing: 4px; }
